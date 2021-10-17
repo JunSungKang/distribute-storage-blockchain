@@ -2,6 +2,7 @@ package com.jskang.storageclient;
 
 import com.jskang.storageclient.file.Download;
 import com.jskang.storageclient.file.Upload;
+import java.io.File;
 import java.util.Scanner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,15 +29,22 @@ public class Main {
             Scanner scanner = new Scanner(System.in);
             inputText = scanner.next();
 
+            File file = null;
             switch (inputText) {
                 case "help":
                     viewUsing();
                     break;
                 case "upload":
-                    System.out.println(new Upload().excute("TEST"));
+                    System.out.println("Please enter the file path to upload.");
+
+                    file = new File(scanner.next());
+                    System.out.println(new Upload().excute(file.getAbsolutePath()));
                     break;
                 case "download":
-                    System.out.println(new Download().excute("TEST"));
+                    System.out.println("Please enter the file path to download.");
+
+                    file = new File(scanner.next());
+                    System.out.println(new Download().excute(file.getAbsolutePath()));
                     break;
             }
         }
