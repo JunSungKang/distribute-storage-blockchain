@@ -33,10 +33,10 @@ public class Main {
                     viewUsing();
                     break;
                 case "upload":
-                    System.out.println(new Upload().upload("TEST"));
+                    System.out.println(new Upload().excute("TEST"));
                     break;
                 case "download":
-                    System.out.println(new Download().Download("TEST"));
+                    System.out.println(new Download().excute("TEST"));
                     break;
             }
         }
