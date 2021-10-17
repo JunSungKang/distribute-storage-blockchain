@@ -33,13 +33,13 @@ public class ReedSolomonDecoding implements ReedSolomonCommon {
                 FileInputStream in = new FileInputStream(shardFile);
                 in.read(shards[i], 0, shardSize);
                 in.close();
-                System.out.println("Read " + shardFile);
+                LOG.info("Distribute file read " + shardFile);
             }
         }
 
         // We need at least DATA_SHARDS to be able to reconstruct the file.
         if (shardCount < DATA_SHARDS) {
-            System.out.println("Not enough shards present");
+            LOG.error("Not enough shards present: We need at least DATA_SHARDS to be able to reconstruct the file.");
             return null;
         }
 

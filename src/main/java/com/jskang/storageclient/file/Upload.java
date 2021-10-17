@@ -21,7 +21,7 @@ public class Upload implements FileUpDown{
      * @return filepath.
      */
     public String reedSolomonEncoding(String filePath) {
-        LOG.info("[" + filePath + "] ReedSolomon encoding start.");
+        LOG.info("(" + filePath + ") ReedSolomon encoding start.");
 
         // 리드솔로몬 처리할 파일 읽기
         File file = Paths.get(filePath).toFile();
@@ -63,7 +63,7 @@ public class Upload implements FileUpDown{
      * @return
      */
     public String excute(String filePath) {
-        LOG.info("[" + filePath + "] upload start.");
+        LOG.info("(" + filePath + ") upload start.");
         return this.reedSolomonEncoding(filePath);
     }
 }

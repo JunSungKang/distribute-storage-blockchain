@@ -22,7 +22,7 @@ public class Download implements FileUpDown{
      * @return filepath.
      */
     public String reedSolomonDecoding(String filePath) {
-        LOG.info("[" + filePath + "] ReedSolomon decoding start.");
+        LOG.info("(" + filePath + ") ReedSolomon decoding start.");
 
         // Reed-Solomon decoding processing.
         try {
