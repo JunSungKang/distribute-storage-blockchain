@@ -25,11 +25,11 @@ public class Download implements FileUpDown{
         LOG.info("(" + filePath + ") ReedSolomon decoding start.");
 
         // Reed-Solomon decoding processing.
-        try {
-            // Write out the resulting files.
-            File outputFile = new File(filePath);
-            FileOutputStream out = new FileOutputStream(outputFile, false);
+        // Write out the resulting files.
+        File outputFile = new File(filePath);
+        FileOutputStream out = null;
 
+        try {
             final File directory = new File(filePath).getParentFile();
             for (File file : directory.listFiles()) {
                 LOG.info("Create distribute file merging: " +file.getName());
@@ -42,9 +42,21 @@ public class Download implements FileUpDown{
                 byte[] partFileData = reedSolomon.execute(filePath);
                 byte[] fullFile = new byte[partFileData.length];
                 System.arraycopy(partFileData, 0, fullFile, 0, partFileData.length);
+
+                // Prevent creation with file size 0byte
+                if (out == null){
+                    out = new FileOutputStream(outputFile, false);
+                }
                 out.write(fullFile);
             }
-            out.close();
+
+            if (out != null){
+                out.close();
+            }
+
+            if (directory.listFiles().length < ReedSolomonCommon.DATA_SHARDS){
+                throw new FileNotFoundException("Not enough shards present: We need at least DATA_SHARDS to be able to reconstruct the file.");
+            }
             LOG.info("Create distribute file completed.");
         } catch (FileNotFoundException e) {
             LOG.error(e.getMessage());
