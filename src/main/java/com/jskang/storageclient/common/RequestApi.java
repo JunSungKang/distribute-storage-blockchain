@@ -1,5 +1,6 @@
 package com.jskang.storageclient.common;
 
+import java.awt.PageAttributes.MediaType;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.http.HttpClient;
@@ -8,10 +9,12 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpRequest.BodyPublisher;
 import java.net.http.HttpRequest.BodyPublishers;
 import java.net.http.HttpResponse;
+import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -76,6 +79,39 @@ public class RequestApi {
         }
         BodyPublisher body = BodyPublishers.ofString(requestBody);
 
+        HttpClient client = HttpClient.newBuilder().version(Version.HTTP_1_1).build();
+
+        String result = "";
+        try {
+            result = client.sendAsync(
+                HttpRequest
+                    .newBuilder(new URI(url))
+                    .POST(body)
+                    .headers(commonHeaders.toArray(String[]::new))
+                    .build(),
+                HttpResponse
+                    .BodyHandlers
+                    .ofString()
+            ).thenApply(HttpResponse::body).get();
+        } catch (URISyntaxException e) {
+            LOG.error(e.getMessage());
+        } catch (ExecutionException e) {
+            LOG.error(e.getMessage());
+        } catch (InterruptedException e) {
+            LOG.error(e.getMessage());
+        }
+
+        return Converter.jsonToMap(result);
+    }
+
+    public Object fileUpload(String url, @NotNull Path file) throws Exception {
+        // Common headers setting.
+        List<String> commonHeaders = Arrays.asList(
+            "Accept", "multipart/form-data",
+            "Content-type", "application/json;charset=UTF-8"
+        );
+
+        BodyPublisher body = BodyPublishers.ofFile(file);
         HttpClient client = HttpClient.newBuilder().version(Version.HTTP_1_1).build();
 
         String result = "";
