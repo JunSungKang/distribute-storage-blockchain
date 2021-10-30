@@ -59,7 +59,7 @@ public class ReedSolomonEncoding implements ReedSolomonCommon {
             out.write(shards[i]);
             out.close();
             outputFiles.add(outputFile.getAbsolutePath());
-            LOG.info("Create distribute file: " +outputFile);
+            LOG.info("Create distribute file: " + outputFile);
         }
         LOG.info("Create distribute file completed.");
 

@@ -1,7 +1,5 @@
 package com.jskang.storageclient.reedsolomon;
 
-import java.io.IOException;
-
 public interface ReedSolomonCommon {
 
     int DATA_SHARDS = 6;

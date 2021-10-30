@@ -2,22 +2,20 @@ package com.jskang.storageclient.file;
 
 import com.jskang.storageclient.reedsolomon.ReedSolomonCommon;
 import com.jskang.storageclient.reedsolomon.ReedSolomonDecoding;
-import com.jskang.storageclient.reedsolomon.ReedSolomonEncoding;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.file.Paths;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class Download implements FileUpDown{
+public class Download implements FileUpDown {
 
     private Logger LOG = LoggerFactory.getLogger(this.getClass());
 
     /**
      * Reed-Solomon decoding processing.
+     *
      * @param filePath Absolute file path.
      * @return filepath.
      */
@@ -32,7 +30,7 @@ public class Download implements FileUpDown{
         try {
             final File directory = new File(filePath).getParentFile();
             for (File file : directory.listFiles()) {
-                LOG.info("Create distribute file merging: " +file.getName());
+                LOG.info("Create distribute file merging: " + file.getName());
                 // 디렉토리인 경우, 이미 처리된 파일 생략
                 if (file.isDirectory() || !file.getName().endsWith("0")) {
                     continue;
@@ -44,18 +42,19 @@ public class Download implements FileUpDown{
                 System.arraycopy(partFileData, 0, fullFile, 0, partFileData.length);
 
                 // Prevent creation with file size 0byte
-                if (out == null){
+                if (out == null) {
                     out = new FileOutputStream(outputFile, false);
                 }
                 out.write(fullFile);
             }
 
-            if (out != null){
+            if (out != null) {
                 out.close();
             }
 
-            if (directory.listFiles().length < ReedSolomonCommon.DATA_SHARDS){
-                throw new FileNotFoundException("Not enough shards present: We need at least DATA_SHARDS to be able to reconstruct the file.");
+            if (directory.listFiles().length < ReedSolomonCommon.DATA_SHARDS) {
+                throw new FileNotFoundException(
+                    "Not enough shards present: We need at least DATA_SHARDS to be able to reconstruct the file.");
             }
             LOG.info("Create distribute file completed.");
         } catch (FileNotFoundException e) {
@@ -69,6 +68,7 @@ public class Download implements FileUpDown{
 
     /**
      * File download.
+     *
      * @param filePath Absolute path to file to download
      * @return
      */

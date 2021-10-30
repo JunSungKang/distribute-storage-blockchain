@@ -11,7 +11,7 @@ public class Main {
 
     private static Logger LOG = LoggerFactory.getLogger(Main.class);
 
-    public static void viewUsing(){
+    public static void viewUsing() {
         System.out.println("===================================");
         System.out.println("input 'help' : help.");
         System.out.println("input 'exit' : program exit.");

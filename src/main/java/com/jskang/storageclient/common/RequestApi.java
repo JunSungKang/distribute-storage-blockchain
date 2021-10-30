@@ -1,6 +1,5 @@
 package com.jskang.storageclient.common;
 
-import java.awt.PageAttributes.MediaType;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.net.URI;
@@ -30,15 +29,31 @@ public class RequestApi {
     private Logger LOG = LoggerFactory.getLogger(this.getClass());
     HttpClient client = HttpClient.newBuilder().version(Version.HTTP_2).build();
 
+    /**
+     * Common rest api header.
+     */
     private List<String> commonHeaders = Arrays.asList(
         "Accept", "application/json",
         "Content-type", "application/json;charset=UTF-8"
     );
 
+    /**
+     * Rest api GET method.
+     *
+     * @param url connect url.
+     * @return server response.
+     */
     public Object get(String url) {
         return this.get(url, null);
     }
 
+    /**
+     * Rest api GET method.
+     *
+     * @param url     connect url.
+     * @param headers custom rest api header.
+     * @return server response.
+     */
     public Object get(String url, String[] headers) {
 
         // Common headers setting.
@@ -71,6 +86,15 @@ public class RequestApi {
         return Converter.jsonToMap(result);
     }
 
+    /**
+     * Rest api POST method.
+     *
+     * @param url     connect url.
+     * @param headers custom rest api header.
+     * @param data    json data.
+     * @return server response.
+     * @throws Exception
+     */
     public Object post(String url, String[] headers, Map<?, ?> data) throws Exception {
         // Common headers setting.
         if (headers != null) {
@@ -108,6 +132,14 @@ public class RequestApi {
         return Converter.jsonToMap(result);
     }
 
+    /**
+     * Rest api POST method.
+     *
+     * @param url  connect url.
+     * @param file file path.
+     * @return server response.
+     * @throws IOException
+     */
     public Object fileUpload(String url, @NotNull Path file) throws IOException {
         // Generate file boundary.
         String boundary = new BigInteger(256, new Random()).toString();
@@ -119,7 +151,7 @@ public class RequestApi {
 
         List<String> commonHeaders = Arrays.asList(
             "Accept", "multipart/form-data",
-            "Content-type", "multipart/form-data;boundary=" +boundary
+            "Content-type", "multipart/form-data;boundary=" + boundary
         );
 
         String result = "";
@@ -151,7 +183,8 @@ public class RequestApi {
 
     /**
      * Generate file upload format.
-     * @param data File form
+     *
+     * @param data     File form
      * @param boundary Random int value.
      * @return BodyPublisher.
      * @throws IOException
@@ -169,7 +202,8 @@ public class RequestApi {
             if (entry.getValue() instanceof Path) {
                 var path = (Path) entry.getValue();
                 String mimeType = Files.probeContentType(path);
-                if (mimeType == null){
+                if (mimeType == null) {
+                    // If mimetype is null, it is judged as a binary file.
                     mimeType = "application/octet-stream";
                 }
 

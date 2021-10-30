@@ -3,13 +3,18 @@ package com.jskang.storageclient.common;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.util.List;
 import java.util.Map;
 
 public class Converter {
 
     private static ObjectMapper mapper = new ObjectMapper();
 
+    /**
+     * Object to json string change.
+     *
+     * @param map json object.
+     * @return json string.
+     */
     public static String objToJson(Object map) {
         try {
             return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(map);
@@ -18,7 +23,14 @@ public class Converter {
         }
     }
 
-    public static Object objToObj(Object json, TypeReference typeReference){
+    /**
+     * Object to Custom Object change.
+     *
+     * @param json          json object.
+     * @param typeReference custom object, new TypeReference<?>(){}.
+     * @return custom object.
+     */
+    public static Object objToObj(Object json, TypeReference typeReference) {
         return mapper.convertValue(json, typeReference);
     }
 
@@ -31,10 +43,16 @@ public class Converter {
         }
     }
 
-    public static List jsonToList(String json) {
+    /**
+     * Json string to custom object change.
+     *
+     * @param json          json string.
+     * @param typeReference custom object, new TypeReference<?>(){}.
+     * @return custom object.
+     */
+    public static Object jsonToObj(String json, TypeReference typeReference) {
         try {
-            return mapper.readValue(json, new TypeReference<List>() {
-            });
+            return mapper.readValue(json, typeReference);
         } catch (JsonProcessingException e) {
             throw new IllegalStateException(e.getMessage());
         }

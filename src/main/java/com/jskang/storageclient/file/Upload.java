@@ -13,7 +13,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class Upload implements FileUpDown{
+public class Upload implements FileUpDown {
 
     private Logger LOG = LoggerFactory.getLogger(this.getClass());
     private ReedSolomonEncoding reedSolomonCommon = null;
@@ -21,6 +21,7 @@ public class Upload implements FileUpDown{
 
     /**
      * Reed-Solomon encoding processing.
+     *
      * @param filePath Absolute file path.
      * @return filepath.
      */
@@ -61,6 +62,7 @@ public class Upload implements FileUpDown{
 
     /**
      * File upload.
+     *
      * @param filePath Absolute path to file to upload.
      * @return
      */

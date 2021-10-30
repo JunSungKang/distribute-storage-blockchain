@@ -38,7 +38,8 @@ public class ReedSolomonDecoding implements ReedSolomonCommon {
 
         // We need at least DATA_SHARDS to be able to reconstruct the file.
         if (shardCount < DATA_SHARDS) {
-            LOG.error("Not enough shards present: We need at least DATA_SHARDS to be able to reconstruct the file.");
+            LOG.error(
+                "Not enough shards present: We need at least DATA_SHARDS to be able to reconstruct the file.");
             return null;
         }
 
