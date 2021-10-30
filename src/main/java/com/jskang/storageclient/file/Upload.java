@@ -1,26 +1,30 @@
 package com.jskang.storageclient.file;
 
+import com.jskang.storageclient.common.RequestApi;
 import com.jskang.storageclient.reedsolomon.ReedSolomonCommon;
 import com.jskang.storageclient.reedsolomon.ReedSolomonEncoding;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class Upload implements FileUpDown{
 
     private Logger LOG = LoggerFactory.getLogger(this.getClass());
-    private ReedSolomonCommon reedSolomonCommon = null;
+    private ReedSolomonEncoding reedSolomonCommon = null;
+    private RequestApi requestApi = new RequestApi();
 
     /**
      * Reed-Solomon encoding processing.
      * @param filePath Absolute file path.
      * @return filepath.
      */
-    public String reedSolomonEncoding(String filePath) {
+    public List<String> reedSolomonEncoding(String filePath) {
         LOG.info("(" + filePath + ") ReedSolomon encoding start.");
 
         // 리드솔로몬 처리할 파일 읽기
@@ -49,12 +53,10 @@ public class Upload implements FileUpDown{
         // ReedSolomon Encoding 수행
         reedSolomonCommon = new ReedSolomonEncoding(allBytes);
         try {
-            reedSolomonCommon.execute(filePath);
+            return reedSolomonCommon.execute(filePath);
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new IllegalStateException(e.getMessage());
         }
-
-        return filePath;
     }
 
     /**
@@ -62,8 +64,19 @@ public class Upload implements FileUpDown{
      * @param filePath Absolute path to file to upload.
      * @return
      */
+    @Override
     public String excute(String filePath) {
         LOG.info("(" + filePath + ") upload start.");
-        return this.reedSolomonEncoding(filePath);
+        List<String> outputFiles = this.reedSolomonEncoding(filePath);
+
+        outputFiles.stream().forEach(path -> {
+            try {
+                Object result = requestApi.fileUpload("127.0.0.1:20040/file/upload", Path.of(path));
+                System.out.println(result);
+            } catch (Exception e) {
+                throw new IllegalStateException(e.getMessage());
+            }
+        });
+        return null;
     }
 }

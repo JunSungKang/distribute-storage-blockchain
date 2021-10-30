@@ -8,7 +8,4 @@ public interface ReedSolomonCommon {
     int PARITY_SHARDS = 3;
     int TOTAL_SHARDS = 9;
     int BYTES_IN_INT = 4;
-
-    // 리드솔로몬 함수 실행
-    public byte[] execute(String fileName) throws IOException;
 }

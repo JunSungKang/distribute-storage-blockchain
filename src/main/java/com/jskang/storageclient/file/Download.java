@@ -38,7 +38,7 @@ public class Download implements FileUpDown{
                     continue;
                 }
 
-                ReedSolomonCommon reedSolomon = new ReedSolomonDecoding();
+                ReedSolomonDecoding reedSolomon = new ReedSolomonDecoding();
                 byte[] partFileData = reedSolomon.execute(filePath);
                 byte[] fullFile = new byte[partFileData.length];
                 System.arraycopy(partFileData, 0, fullFile, 0, partFileData.length);
@@ -72,6 +72,7 @@ public class Download implements FileUpDown{
      * @param filePath Absolute path to file to download
      * @return
      */
+    @Override
     public String excute(String filePath) {
         LOG.info("download start.");
         return this.reedSolomonDecoding(filePath);

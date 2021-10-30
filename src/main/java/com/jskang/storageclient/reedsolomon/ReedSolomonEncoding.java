@@ -4,6 +4,8 @@ import com.backblaze.erasure.ReedSolomon;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,8 +20,7 @@ public class ReedSolomonEncoding implements ReedSolomonCommon {
         System.arraycopy(allBytes, 0, this.allBytes, 0, allBytes.length);
     }
 
-    @Override
-    public byte[] execute(String fileName) throws IOException {
+    public List<String> execute(String fileName) throws IOException {
         LOG.info("Create distribute file start.");
 
         // Get the size of the input file.  (Files bigger that
@@ -51,15 +52,17 @@ public class ReedSolomonEncoding implements ReedSolomonCommon {
         reedSolomon.encodeParity(shards, 0, shardSize);
 
         // Write out the resulting files.
+        List<String> outputFiles = new ArrayList<>();
         for (int i = 0; i < TOTAL_SHARDS; i++) {
             File outputFile = new File(fileName + "." + i);
             FileOutputStream out = new FileOutputStream(outputFile);
             out.write(shards[i]);
             out.close();
+            outputFiles.add(outputFile.getAbsolutePath());
             LOG.info("Create distribute file: " +outputFile);
         }
         LOG.info("Create distribute file completed.");
 
-        return null;
+        return outputFiles;
     }
 }
