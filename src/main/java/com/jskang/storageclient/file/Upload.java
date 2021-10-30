@@ -71,13 +71,13 @@ public class Upload implements FileUpDown {
         LOG.info("(" + filePath + ") upload start.");
         List<String> outputFiles = this.reedSolomonEncoding(filePath);
 
-        int fileNameIdx = filePath.lastIndexOf("\\")+1;
-        int extensionIdx = filePath.lastIndexOf(".");
+        int fileNameIdx = filePath.lastIndexOf("\\") + 1;
         final String fileName = filePath.substring(fileNameIdx);
 
         outputFiles.stream().forEach(path -> {
             try {
-                Object result = requestApi.fileUpload("127.0.0.1:20040/file/upload?fileName=" +fileName, Path.of(path));
+                Object result = requestApi
+                    .fileUpload("127.0.0.1:20040/file/upload?fileName=" + fileName, Path.of(path));
                 System.out.println(result);
             } catch (Exception e) {
                 throw new IllegalStateException(e.getMessage());
