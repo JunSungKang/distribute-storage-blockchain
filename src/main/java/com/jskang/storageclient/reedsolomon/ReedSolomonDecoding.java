@@ -3,6 +3,7 @@ package com.jskang.storageclient.reedsolomon;
 import com.backblaze.erasure.ReedSolomon;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Arrays;
 import org.slf4j.Logger;
@@ -61,6 +62,10 @@ public class ReedSolomonDecoding implements ReedSolomonCommon {
             System.arraycopy(shards[i], 0, allBytes, shardSize * i, shardSize);
         }
 
-        return Arrays.copyOfRange(allBytes, 0, allBytes.length);
+        byte[] data = Arrays.copyOfRange(allBytes, 0, allBytes.length);
+        FileOutputStream out = new FileOutputStream(new File(fileName));
+        out.write(data);
+        out.close();
+        return data;
     }
 }
