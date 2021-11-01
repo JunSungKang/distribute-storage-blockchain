@@ -2,7 +2,9 @@ package com.jskang.storageclient;
 
 import com.jskang.storageclient.file.Download;
 import com.jskang.storageclient.file.Upload;
+import com.jskang.storageclient.reedsolomon.ReedSolomonDecoding;
 import java.io.File;
+import java.io.IOException;
 import java.util.Scanner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,7 +22,7 @@ public class Main {
         System.out.println("===================================");
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         LOG.info("Client start completed.");
         viewUsing();
 
@@ -29,7 +31,6 @@ public class Main {
             Scanner scanner = new Scanner(System.in);
             inputText = scanner.next();
 
-            File file = null;
             switch (inputText) {
                 case "help":
                     viewUsing();
@@ -37,14 +38,16 @@ public class Main {
                 case "upload":
                     System.out.println("Please enter the file path to upload.");
 
-                    file = new File(scanner.next());
+                    File file = new File(scanner.next());
                     System.out.println(new Upload().excute(file.getAbsolutePath()));
                     break;
                 case "download":
                     System.out.println("Please enter the file path to download.");
 
-                    file = new File(scanner.next());
-                    System.out.println(new Download().excute(file.getAbsolutePath()));
+                    String downloadFile = scanner.next();
+                    new Download().excute(downloadFile);
+                    ReedSolomonDecoding reedSolomonDecoding = new ReedSolomonDecoding();
+                    reedSolomonDecoding.execute("test_merge\\" + downloadFile);
                     break;
             }
         }

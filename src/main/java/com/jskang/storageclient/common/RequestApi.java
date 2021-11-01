@@ -1,5 +1,8 @@
 package com.jskang.storageclient.common;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.net.URI;
@@ -83,7 +86,8 @@ public class RequestApi {
             LOG.error(e.getMessage());
         }
 
-        return Converter.jsonToMap(result);
+        return Converter.jsonToObj(result, new TypeReference<List>() {
+        });
     }
 
     /**
@@ -130,6 +134,39 @@ public class RequestApi {
         }
 
         return Converter.jsonToMap(result);
+    }
+
+    /**
+     * Rest api POST method.
+     *
+     * @param url      connect url.
+     * @param fileName file path.
+     * @return server response.
+     * @throws IOException
+     */
+    public void fileDownload(String url, @NotNull String fileName) throws IOException {
+        try {
+            byte[] result = client.sendAsync(
+                HttpRequest
+                    .newBuilder(new URI("http://" + url + "?fileName=" + fileName))
+                    .GET()
+                    .headers(commonHeaders.toArray(String[]::new))
+                    .build(),
+                HttpResponse
+                    .BodyHandlers
+                    .ofByteArray()
+            ).thenApply(HttpResponse::body).get();
+
+            FileOutputStream output = new FileOutputStream(new File("test_merge\\" + fileName));
+            output.write(result);
+            output.close();
+        } catch (URISyntaxException e) {
+            LOG.error(e.getMessage());
+        } catch (ExecutionException e) {
+            LOG.error(e.getMessage());
+        } catch (InterruptedException e) {
+            LOG.error(e.getMessage());
+        }
     }
 
     /**

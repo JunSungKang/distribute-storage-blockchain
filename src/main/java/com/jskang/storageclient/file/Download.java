@@ -1,17 +1,22 @@
 package com.jskang.storageclient.file;
 
+import com.jskang.storageclient.common.RequestApi;
 import com.jskang.storageclient.reedsolomon.ReedSolomonCommon;
 import com.jskang.storageclient.reedsolomon.ReedSolomonDecoding;
+import com.jskang.storageclient.reedsolomon.ReedSolomonEncoding;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class Download implements FileUpDown {
 
     private Logger LOG = LoggerFactory.getLogger(this.getClass());
+    private ReedSolomonEncoding reedSolomonCommon = null;
+    private RequestApi requestApi = new RequestApi();
 
     /**
      * Reed-Solomon decoding processing.
@@ -69,13 +74,27 @@ public class Download implements FileUpDown {
     /**
      * File download.
      *
-     * @param filePath Absolute path to file to download
+     * @param downloadFile Absolute path to file to download
      * @return
      */
     @Override
-    public String excute(String filePath) {
+    public String excute(String downloadFile) {
         LOG.info("download start.");
-        return this.reedSolomonDecoding(filePath);
+        List<String> positions = (List) requestApi
+            .get("127.0.0.1:20040/file/position_info?fileName=" + downloadFile);
+
+        for (int i = 0; i < positions.size(); i++) {
+            try {
+                String fileName = positions.get(i);
+                requestApi.fileDownload(
+                    "127.0.0.1:20040/file/download",
+                    fileName);
+            } catch (IOException e) {
+                LOG.error(e.getMessage());
+            }
+        }
+        return "COMPLETE";
+        //return this.reedSolomonDecoding(downloadFile);
     }
 
 }
