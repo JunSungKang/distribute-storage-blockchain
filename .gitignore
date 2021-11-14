@@ -193,3 +193,8 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.toptal.com/developers/gitignore/api/windows,intellij,java
+
+data
+lib
+test_bin
+test_merge
