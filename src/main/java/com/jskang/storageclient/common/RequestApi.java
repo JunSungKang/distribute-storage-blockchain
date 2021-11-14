@@ -1,6 +1,5 @@
 package com.jskang.storageclient.common;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.jskang.storageclient.response.ResponseData;
 import java.io.File;
 import java.io.FileOutputStream;
