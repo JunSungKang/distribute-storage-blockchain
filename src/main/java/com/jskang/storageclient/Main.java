@@ -2,6 +2,7 @@ package com.jskang.storageclient;
 
 import com.jskang.storageclient.file.Download;
 import com.jskang.storageclient.file.Upload;
+import com.jskang.storageclient.network.NodeInfo;
 import com.jskang.storageclient.reedsolomon.ReedSolomonDecoding;
 import java.io.File;
 import java.io.IOException;
@@ -23,6 +24,11 @@ public class Main {
     }
 
     public static void main(String[] args) throws IOException {
+        NodeInfo nodeInfo = new NodeInfo();
+        nodeInfo.load();
+
+        LOG.info(nodeInfo.getNodeList().toString());
+
         LOG.info("Client start completed.");
         viewUsing();
 
