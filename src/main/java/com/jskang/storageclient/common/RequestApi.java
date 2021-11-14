@@ -1,6 +1,7 @@
 package com.jskang.storageclient.common;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.jskang.storageclient.response.ResponseData;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -46,7 +47,7 @@ public class RequestApi {
      * @param url connect url.
      * @return server response.
      */
-    public Object get(String url) {
+    public ResponseData get(String url) {
         return this.get(url, null);
     }
 
@@ -57,7 +58,7 @@ public class RequestApi {
      * @param headers custom rest api header.
      * @return server response.
      */
-    public Object get(String url, String[] headers) {
+    public ResponseData get(String url, String[] headers) {
 
         // Common headers setting.
         if (headers != null) {
@@ -86,8 +87,7 @@ public class RequestApi {
             LOG.error(e.getMessage());
         }
 
-        return Converter.jsonToObj(result, new TypeReference<List>() {
-        });
+        return Converter.jsonToResponseData(result);
     }
 
     /**
@@ -99,7 +99,7 @@ public class RequestApi {
      * @return server response.
      * @throws Exception
      */
-    public Object post(String url, String[] headers, Map<?, ?> data) throws Exception {
+    public ResponseData post(String url, String[] headers, Map<?, ?> data) throws Exception {
         // Common headers setting.
         if (headers != null) {
             for (String header : headers) {
@@ -133,7 +133,7 @@ public class RequestApi {
             LOG.error(e.getMessage());
         }
 
-        return Converter.jsonToMap(result);
+        return Converter.jsonToResponseData(result);
     }
 
     /**
@@ -177,7 +177,7 @@ public class RequestApi {
      * @return server response.
      * @throws IOException
      */
-    public Object fileUpload(String url, @NotNull Path file) throws IOException {
+    public ResponseData fileUpload(String url, @NotNull Path file) throws IOException {
         // Generate file boundary.
         String boundary = new BigInteger(256, new Random()).toString();
         String mimeType = Files.probeContentType(file);
@@ -215,7 +215,7 @@ public class RequestApi {
             LOG.error(e.getMessage());
         }
 
-        return Converter.jsonToMap(result);
+        return Converter.jsonToResponseData(result);
     }
 
     /**

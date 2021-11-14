@@ -36,13 +36,13 @@ public class Main {
                     viewUsing();
                     break;
                 case "upload":
-                    System.out.println("Please enter the file path to upload.");
+                    LOG.info("Please enter the file path to upload.");
 
                     File file = new File(scanner.next());
-                    System.out.println(new Upload().excute(file.getAbsolutePath()));
+                    LOG.info(new Upload().excute(file.getAbsolutePath()));
                     break;
                 case "download":
-                    System.out.println("Please enter the file path to download.");
+                    LOG.info("Please enter the file path to download.");
 
                     String downloadFile = scanner.next();
                     new Download().excute(downloadFile);

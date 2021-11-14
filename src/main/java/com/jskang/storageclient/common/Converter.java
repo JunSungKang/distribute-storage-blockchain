@@ -3,6 +3,7 @@ package com.jskang.storageclient.common;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jskang.storageclient.response.ResponseData;
 import java.util.Map;
 
 public class Converter {
@@ -53,6 +54,21 @@ public class Converter {
     public static Object jsonToObj(String json, TypeReference typeReference) {
         try {
             return mapper.readValue(json, typeReference);
+        } catch (JsonProcessingException e) {
+            throw new IllegalStateException(e.getMessage());
+        }
+    }
+
+    /**
+     * Json string to ResponseData change.
+     *
+     * @param json json string.
+     * @return custom object.
+     */
+    public static ResponseData jsonToResponseData(String json) {
+        try {
+            return mapper.readValue(json, new TypeReference<ResponseData>() {
+            });
         } catch (JsonProcessingException e) {
             throw new IllegalStateException(e.getMessage());
         }

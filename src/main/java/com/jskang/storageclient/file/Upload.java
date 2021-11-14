@@ -3,6 +3,7 @@ package com.jskang.storageclient.file;
 import com.jskang.storageclient.common.RequestApi;
 import com.jskang.storageclient.reedsolomon.ReedSolomonCommon;
 import com.jskang.storageclient.reedsolomon.ReedSolomonEncoding;
+import com.jskang.storageclient.response.ResponseData;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -76,9 +77,9 @@ public class Upload implements FileUpDown {
 
         outputFiles.stream().forEach(path -> {
             try {
-                Object result = requestApi
+                ResponseData result = requestApi
                     .fileUpload("127.0.0.1:20040/file/upload?fileName=" + fileName, Path.of(path));
-                System.out.println(result);
+                LOG.info(result.toString());
             } catch (Exception e) {
                 throw new IllegalStateException(e.getMessage());
             }
