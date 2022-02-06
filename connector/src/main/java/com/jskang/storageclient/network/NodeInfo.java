@@ -25,12 +25,16 @@ public class NodeInfo {
 
     public void load() {
         LOG.info("Node list loading ...");
+        // data 디렉토리가 없는 경우 디렉토리 생성
+        File dataDirectory = Paths.get("data").toFile();
+        dataDirectory.mkdirs();
+
         File file = Paths.get("data", "nodes.json").toFile();
         if (!file.exists()) {
             // 파일이 없을 때
             try {
                 ResponseData result = requestApi.get("127.0.0.1:20040/node/list");
-                if (result.getHeader().getCode() != 200) {
+                if (result == null || result.getHeader().getCode() != 200) {
                     throw new IllegalStateException("Node list load fail.");
                 }
 

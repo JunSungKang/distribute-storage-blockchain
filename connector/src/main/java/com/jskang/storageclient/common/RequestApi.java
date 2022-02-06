@@ -86,7 +86,11 @@ public class RequestApi {
             LOG.error(e.getMessage());
         }
 
-        return Converter.jsonToResponseData(result);
+        if (result.equals("")) {
+            return null;
+        } else {
+            return Converter.jsonToResponseData(result);
+        }
     }
 
     /**
@@ -132,7 +136,11 @@ public class RequestApi {
             LOG.error(e.getMessage());
         }
 
-        return Converter.jsonToResponseData(result);
+        if (result.equals("")) {
+            return null;
+        } else {
+            return Converter.jsonToResponseData(result);
+        }
     }
 
     /**
@@ -214,7 +222,11 @@ public class RequestApi {
             LOG.error(e.getMessage());
         }
 
-        return Converter.jsonToResponseData(result);
+        if (result.equals("")) {
+            return null;
+        } else {
+            return Converter.jsonToResponseData(result);
+        }
     }
 
     /**

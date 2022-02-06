@@ -4,6 +4,7 @@ import com.jskang.storageclient.common.RequestApi;
 import com.jskang.storageclient.reedsolomon.ReedSolomonCommon;
 import com.jskang.storageclient.reedsolomon.ReedSolomonDecoding;
 import com.jskang.storageclient.reedsolomon.ReedSolomonEncoding;
+import com.jskang.storageclient.response.ResponseData;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -80,9 +81,10 @@ public class Download implements FileUpDown {
     @Override
     public String excute(String downloadFile) {
         LOG.info("download start.");
-        List<String> positions = (List) requestApi
+        ResponseData responseData = requestApi
             .get("127.0.0.1:20040/file/position_info?fileName=" + downloadFile);
 
+        List<String> positions = (List<String>)responseData.getBody();
         for (int i = 0; i < positions.size(); i++) {
             try {
                 String fileName = positions.get(i);
