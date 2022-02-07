@@ -6,13 +6,13 @@
       <fileNamePattern>log/%d{yyyy-MM-dd}.log</fileNamePattern>
     </rollingPolicy>
     <encoder>
-      <pattern>[%d{yyyy-MM-dd HH:mm:ss}] [%level] [%logger{35}] [%thread] %msg%n</pattern>
+      <pattern>[%d{yyyy-MM-dd HH:mm:ss}] [%level] [%logger{35}] %msg%n</pattern>
     </encoder>
   </appender>
 
   <appender name="consoleAppender" class="ch.qos.logback.core.ConsoleAppender">
     <encoder>
-      <pattern>[%d{yyyy-MM-dd HH:mm:ss}] [%level] [%logger{35}] [%thread] %msg%n</pattern>
+      <pattern>[%d{yyyy-MM-dd HH:mm:ss}] [%level] [%logger{35}] %msg%n</pattern>
     </encoder>
   </appender>
 
