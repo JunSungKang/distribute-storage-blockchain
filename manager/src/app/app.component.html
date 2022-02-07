@@ -14,11 +14,11 @@
   <mat-tab label="File Download">
     <mat-list>
       <div mat-subheader>File List</div>
-      <mat-list-item *ngFor="let folder of folders" (click)="fileDownload(folder)">
+      <mat-list-item *ngFor="let file of files" (click)="fileDownload(file)">
         <mat-icon mat-list-icon>file_present</mat-icon>
-        <div mat-line>{{folder.name}}</div>
-        <div mat-line> {{folder.updated | date}} </div>
-        <div mat-line> {{folder.damaged}} </div>
+        <div mat-line>{{file.name}}</div>
+        <div mat-line> {{file.updated | date}} </div>
+        <div mat-line> {{file.damaged}} </div>
       </mat-list-item>
       <mat-divider></mat-divider>
     </mat-list>
