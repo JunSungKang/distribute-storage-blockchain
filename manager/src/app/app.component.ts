@@ -16,6 +16,16 @@ export class AppComponent implements OnInit {
   constructor(private http: HttpClient) { }
 
   ngOnInit() {
+    // File list update.
+    this.onFileListRefresh();
+  }
+
+  downloadPath: string = "D:\\test";
+  uploadPath: string = "D:\\test";
+  fileName: string = "";
+  files: any = [];
+
+  onFileListRefresh = () => {
     let fileList = this.http.get("http://127.0.0.1:20040/file/list");
     fileList.subscribe( (value: any) => {
       let header = value["header"];
@@ -35,10 +45,6 @@ export class AppComponent implements OnInit {
     })
   }
 
-  downloadPath: string = "D:\\test";
-  fileName: string = "";
-  files: any = [];
-
   onUploadFileSelected = (event: any) => {
     const file:File = event.target.files[0];
 
@@ -49,8 +55,22 @@ export class AppComponent implements OnInit {
     }
   }
 
+  fileUpload = (folder: HTMLInputElement) => {
+    // TODO: You must use hard-coded file paths and file names as dynamic variables.
+    let data = {
+      fileName: "소라카역관광.mp4",
+      uploadPath: this.uploadPath
+    }
+
+    let response = this.http.post("http://127.0.0.1:8080/upload", JSON.stringify(data));
+    response.subscribe( value => {
+      // Update file list if successful.
+      this.onFileListRefresh();
+    });
+  }
+
   onDownloadPathSelected = (event: any) => {
-    // TODO: 사용자가 다운 받을 경로를 선택하도록 해야함
+    // TODO: Let the user choose a path to download.
     const file:File = event.target.files[0];
   }
 
@@ -59,6 +79,7 @@ export class AppComponent implements OnInit {
       fileName: folder.name,
       downloadPath: this.downloadPath
     }
+
     let response = this.http.post("http://127.0.0.1:8080/download", JSON.stringify(data));
     response.subscribe( value => {
       console.log(value);

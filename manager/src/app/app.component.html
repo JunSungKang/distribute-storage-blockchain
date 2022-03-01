@@ -1,22 +1,24 @@
 <mat-tab-group>
   <mat-tab label="File Upload">
-    <input type="file" class="file-input" (change)="onUploadFileSelected($event)" #fileUpload>
+    <input type="file" class="file-input" (change)="onUploadFileSelected($event)" #fileUploadTag>
 
     <div class="file-upload">
       {{fileName || "No file uploaded yet."}}
 
-      <button mat-mini-fab color="primary" class="upload-btn" (click)="fileUpload.click()">
+      <button mat-mini-fab color="primary" class="upload-btn" (click)="fileUploadTag.click()">
         <mat-icon>attach_file</mat-icon>
       </button>
     </div>
+
+    <button (click)="fileUpload(fileUploadTag)"> File Upload Start! </button>
   </mat-tab>
 
   <mat-tab label="File Download">
-    <input type="file" class="file-input" webkitdirectory (change)="onDownloadPathSelected($event)" #fileDownloadPath>
+    <input type="file" class="file-input" webkitdirectory (change)="onDownloadPathSelected($event)" #fileDownloadPathTag>
     <div class="file-upload">
       {{downloadPath || "No directory yet."}}
 
-      <button mat-mini-fab color="primary" class="upload-btn" (click)="fileDownloadPath.click()">
+      <button mat-mini-fab color="primary" class="upload-btn" (click)="fileDownloadPathTag.click()">
         <mat-icon>attach_file</mat-icon>
       </button>
     </div>
