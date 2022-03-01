@@ -1,6 +1,6 @@
 <mat-tab-group>
   <mat-tab label="File Upload">
-    <input type="file" class="file-input" (change)="onFileSelected($event)" #fileUpload>
+    <input type="file" class="file-input" (change)="onUploadFileSelected($event)" #fileUpload>
 
     <div class="file-upload">
       {{fileName || "No file uploaded yet."}}
@@ -12,6 +12,15 @@
   </mat-tab>
 
   <mat-tab label="File Download">
+    <input type="file" class="file-input" webkitdirectory (change)="onDownloadPathSelected($event)" #fileDownloadPath>
+    <div class="file-upload">
+      {{downloadPath || "No directory yet."}}
+
+      <button mat-mini-fab color="primary" class="upload-btn" (click)="fileDownloadPath.click()">
+        <mat-icon>attach_file</mat-icon>
+      </button>
+    </div>
+
     <mat-list>
       <div mat-subheader>File List</div>
       <mat-list-item *ngFor="let file of files" (click)="fileDownload(file)">

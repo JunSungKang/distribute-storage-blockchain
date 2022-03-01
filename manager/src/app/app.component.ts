@@ -35,38 +35,33 @@ export class AppComponent implements OnInit {
     })
   }
 
+  downloadPath: string = "";
   fileName: string = "";
   files: any = [];
-  /*
-    {
-      name: 'Photos',
-      updated: new Date('1/1/16'),
-      damaged: false,
-    },
-    {
-      name: 'Recipes',
-      updated: new Date('1/17/16'),
-      damaged: false,
-    },
-    {
-      name: 'Work',
-      updated: new Date('1/28/16'),
-      damaged: false,
-    }
-   */
 
-  onFileSelected = (event: any) => {
+  onUploadFileSelected = (event: any) => {
     const file:File = event.target.files[0];
 
     if (file) {
       this.fileName = file.name;
       const formData = new FormData();
       formData.append("thumbnail", file);
-      console.log(formData);
     }
   }
 
+  onDownloadPathSelected = (event: any) => {
+    // TODO: 사용자가 다운 받을 경로를 선택하도록 해야함
+    const file:File = event.target.files[0];
+  }
+
   fileDownload = (folder: Section) => {
-    alert(folder.name);
+    let data = {
+      fileName: folder.name,
+      downloadPath: "D:\\test"
+    }
+    let response = this.http.post("http://127.0.0.1:8080/download", JSON.stringify(data));
+    response.subscribe( value => {
+      console.log(value);
+    });
   }
 }
