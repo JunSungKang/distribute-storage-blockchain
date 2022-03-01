@@ -164,7 +164,7 @@ public class RequestApi {
                     .ofByteArray()
             ).thenApply(HttpResponse::body).get();
 
-            FileOutputStream output = new FileOutputStream(new File(downloadPath + "\\" + fileName));
+            FileOutputStream output = new FileOutputStream(new File(downloadPath + File.separator + fileName));
             output.write(result);
             output.close();
         } catch (URISyntaxException e) {
