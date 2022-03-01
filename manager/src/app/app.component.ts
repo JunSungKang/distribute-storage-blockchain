@@ -35,7 +35,7 @@ export class AppComponent implements OnInit {
     })
   }
 
-  downloadPath: string = "";
+  downloadPath: string = "D:\\test";
   fileName: string = "";
   files: any = [];
 
@@ -57,7 +57,7 @@ export class AppComponent implements OnInit {
   fileDownload = (folder: Section) => {
     let data = {
       fileName: folder.name,
-      downloadPath: "D:\\test"
+      downloadPath: this.downloadPath
     }
     let response = this.http.post("http://127.0.0.1:8080/download", JSON.stringify(data));
     response.subscribe( value => {
