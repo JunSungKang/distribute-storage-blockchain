@@ -90,7 +90,7 @@ public class Download implements FileUpDown {
             // TODO: 파일 경로가 아니라 IP주소로 변경하는 구조를 해야함
             try {
                 String distributeFileName = positions.get(i);
-                int idx = distributeFileName.lastIndexOf("/");
+                int idx = distributeFileName.lastIndexOf(File.separator);
                 distributeFileName = distributeFileName.substring(idx+1, distributeFileName.length());
                 requestApi.fileDownload(
                     "127.0.0.1:20040/file/download",

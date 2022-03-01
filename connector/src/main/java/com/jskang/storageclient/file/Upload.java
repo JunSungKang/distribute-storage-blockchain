@@ -70,7 +70,7 @@ public class Upload implements FileUpDown {
      */
     @Override
     public String excute(String path, String fileName) {
-        String filePath = Paths.get(path, fileName).toString();
+        String filePath = Paths.get(path, fileName).toAbsolutePath().toString();
         LOG.info("(" + filePath + ") upload start.");
         List<String> outputFiles = this.reedSolomonEncoding(filePath);
 
