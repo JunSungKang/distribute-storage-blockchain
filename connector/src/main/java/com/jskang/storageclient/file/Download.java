@@ -75,28 +75,31 @@ public class Download implements FileUpDown {
     /**
      * File download.
      *
-     * @param downloadFile Absolute path to file to download
+     * @param path Absolute file path.
+     * @param fileName Absolute path to file to download
      * @return
      */
     @Override
-    public String excute(String downloadFile) {
+    public String excute(String path, String fileName) {
         LOG.info("download start.");
         ResponseData responseData = requestApi
-            .get("127.0.0.1:20040/file/position_info?fileName=" + downloadFile);
+            .get("127.0.0.1:20040/file/position_info?fileName=" + fileName);
 
         List<String> positions = (List<String>)responseData.getBody();
         for (int i = 0; i < positions.size(); i++) {
+            // TODO: 파일 경로가 아니라 IP주소로 변경하는 구조를 해야함
             try {
-                String fileName = positions.get(i);
+                String distributeFileName = positions.get(i);
+                int idx = distributeFileName.lastIndexOf("/");
+                distributeFileName = distributeFileName.substring(idx+1, distributeFileName.length());
                 requestApi.fileDownload(
                     "127.0.0.1:20040/file/download",
-                    fileName);
+                    path, distributeFileName);
             } catch (IOException e) {
                 LOG.error(e.getMessage());
             }
         }
         return "COMPLETE";
-        //return this.reedSolomonDecoding(downloadFile);
     }
 
 }

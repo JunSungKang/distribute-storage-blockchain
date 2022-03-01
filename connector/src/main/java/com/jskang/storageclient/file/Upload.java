@@ -64,21 +64,20 @@ public class Upload implements FileUpDown {
     /**
      * File upload.
      *
-     * @param filePath Absolute path to file to upload.
+     * @param path Absolute path parent.
+     * @param fileName Upload file name.
      * @return
      */
     @Override
-    public String excute(String filePath) {
+    public String excute(String path, String fileName) {
+        String filePath = Paths.get(path, fileName).toString();
         LOG.info("(" + filePath + ") upload start.");
         List<String> outputFiles = this.reedSolomonEncoding(filePath);
 
-        int fileNameIdx = filePath.lastIndexOf("\\") + 1;
-        final String fileName = filePath.substring(fileNameIdx);
-
-        outputFiles.stream().forEach(path -> {
+        outputFiles.stream().forEach(downloadFile -> {
             try {
                 ResponseData result = requestApi
-                    .fileUpload("127.0.0.1:20040/file/upload?fileName=" + fileName, Path.of(path));
+                    .fileUpload("127.0.0.1:20040/file/upload?fileName=" + fileName, Path.of(downloadFile));
                 LOG.info(result.toString());
             } catch (Exception e) {
                 throw new IllegalStateException(e.getMessage());

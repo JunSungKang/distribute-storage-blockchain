@@ -151,7 +151,7 @@ public class RequestApi {
      * @return server response.
      * @throws IOException
      */
-    public void fileDownload(String url, @NotNull String fileName) throws IOException {
+    public void fileDownload(String url, @NotNull String downloadPath, @NotNull String fileName) throws IOException {
         try {
             byte[] result = client.sendAsync(
                 HttpRequest
@@ -164,7 +164,7 @@ public class RequestApi {
                     .ofByteArray()
             ).thenApply(HttpResponse::body).get();
 
-            FileOutputStream output = new FileOutputStream(new File("test_merge\\" + fileName));
+            FileOutputStream output = new FileOutputStream(new File(downloadPath + "\\" + fileName));
             output.write(result);
             output.close();
         } catch (URISyntaxException e) {
