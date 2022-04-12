@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonRootName;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.jskang.storageclient.common.Converter;
-import com.jskang.storageclient.common.RequestApi;
+import com.jskang.storageclient.http.RequestApi;
 import com.jskang.storageclient.node.NodeStatusDaos;
 import com.jskang.storageclient.response.ResponseData;
 import java.io.File;

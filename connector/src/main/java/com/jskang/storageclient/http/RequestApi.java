@@ -1,5 +1,6 @@
-package com.jskang.storageclient.common;
+package com.jskang.storageclient.http;
 
+import com.jskang.storageclient.common.Converter;
 import com.jskang.storageclient.response.ResponseData;
 import java.io.File;
 import java.io.FileOutputStream;

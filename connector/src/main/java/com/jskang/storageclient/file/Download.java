@@ -1,6 +1,6 @@
 package com.jskang.storageclient.file;
 
-import com.jskang.storageclient.common.RequestApi;
+import com.jskang.storageclient.http.RequestApi;
 import com.jskang.storageclient.reedsolomon.ReedSolomonCommon;
 import com.jskang.storageclient.reedsolomon.ReedSolomonDecoding;
 import com.jskang.storageclient.reedsolomon.ReedSolomonEncoding;

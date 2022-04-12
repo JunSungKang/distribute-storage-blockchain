@@ -1,9 +1,12 @@
 package com.jskang.storageclient;
 
+import com.jskang.storageclient.http.HttpMethod;
 import com.jskang.storageclient.handler.DownloadHandler;
 import com.jskang.storageclient.handler.UploadHandler;
+import com.jskang.storageclient.http.ResponseApi;
 import com.sun.net.httpserver.HttpServer;
 import java.io.IOException;
+import java.net.HttpURLConnection;
 import java.net.InetSocketAddress;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,17 +16,40 @@ public class Main {
     private static Logger LOG = LoggerFactory.getLogger(Main.class);
 
     public static void main(String[] args) throws IOException {
-        int port = 8080;
+        int port = 0;
+        try {
+            Integer.valueOf(args[1]);
+        } catch (NumberFormatException e) {
+            port = 8080;
+            LOG.warn("An incorrect value was entered. The port defaults to 8080.");
+        } catch (Exception e) {
+            port = 8080;
+            LOG.warn("An error occurred while converting a number. The port defaults to 8080.");
+        }
 
+        // TODO: 404 응답 처리 해야함
         HttpServer server = HttpServer.create(new InetSocketAddress(port), 0);
         server.createContext("/upload", exchange -> {
             LOG.info("Upload start...");
-            new UploadHandler().run(exchange);
+            if (exchange.getRequestMethod().equals(HttpMethod.POST)) {
+                new UploadHandler().run(exchange);
+            } else {
+                String response = String.format("[%s] /upload - This service is not supported.", exchange.getRequestMethod());
+                LOG.error(response);
+                ResponseApi.outputStreamData(HttpURLConnection.HTTP_BAD_METHOD, exchange, response);
+            }
         });
         server.createContext("/download", exchange -> {
             LOG.info("API Download start...");
-            new DownloadHandler().run(exchange);
+            if (exchange.getRequestMethod().equals(HttpMethod.POST)) {
+                new DownloadHandler().run(exchange);
+            } else {
+                String response = String.format("[%s] /upload - This service is not supported.", exchange.getRequestMethod());
+                LOG.error(response);
+                ResponseApi.outputStreamData(HttpURLConnection.HTTP_BAD_METHOD, exchange, response);
+            }
         });
+
         server.setExecutor(null);
         server.start();
 

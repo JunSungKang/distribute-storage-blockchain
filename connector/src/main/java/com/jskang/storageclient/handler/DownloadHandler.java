@@ -1,10 +1,12 @@
 package com.jskang.storageclient.handler;
 
 import com.jskang.storageclient.file.Download;
+import com.jskang.storageclient.http.ResponseApi;
 import com.sun.net.httpserver.HttpExchange;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.HttpURLConnection;
 import java.nio.file.Paths;
 import java.util.Map;
 import org.slf4j.Logger;
@@ -49,10 +51,7 @@ public class DownloadHandler extends HandlerUtils implements Handler {
         // 모든 작업 완료 후 응답
         try {
             String response = String.format("%s bytes download complete.", data.get("fileName"));
-            exchange.sendResponseHeaders(200, response.length());
-            OutputStream os = exchange.getResponseBody();
-            os.write(response.getBytes());
-            os.close();
+            ResponseApi.outputStreamData(HttpURLConnection.HTTP_OK, exchange, response);
         } catch (IOException e) {
             LOG.error(e.getMessage());
             return;
