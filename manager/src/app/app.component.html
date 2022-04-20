@@ -1,31 +1,27 @@
 <mat-tab-group>
   <mat-tab label="File Upload">
-    <input type="file" class="file-input" (change)="onUploadFileSelected($event)" #fileUploadTag>
-
-    <div class="file-upload">
-      {{fileName || "No file uploaded yet."}}
-
-      <button mat-mini-fab color="primary" class="upload-btn" (click)="fileUploadTag.click()">
-        <mat-icon>attach_file</mat-icon>
-      </button>
+    <h3 style="padding:16px; margin-bottom: -8px; color:rgb(255,255,255,.7);">Upload File Path</h3>
+    <div class="text-box">
+      <input type="text" class="file-input" [(ngModel)]="uploadPath">
     </div>
 
-    <button (click)="fileUpload(fileUploadTag)"> File Upload Start! </button>
+    <h3 style="padding:16px; margin-bottom: -8px; color:rgb(255,255,255,.7);">Upload File Select</h3>
+    <div class="text-box">
+      <input type="file" class="file-input" (change)="onUploadFileSelected($event)" #fileUploadTag>
+      <br/>
+      <button (click)="fileUpload(fileUploadTag)"> File Upload Start! </button>
+    </div>
   </mat-tab>
 
   <mat-tab label="File Download">
-    <input type="file" class="file-input" webkitdirectory (change)="onDownloadPathSelected($event)" #fileDownloadPathTag>
-    <div class="file-upload">
-      {{downloadPath || "No directory yet."}}
-
-      <button mat-mini-fab color="primary" class="upload-btn" (click)="fileDownloadPathTag.click()">
-        <mat-icon>attach_file</mat-icon>
-      </button>
+    <h3 style="padding:16px; margin-bottom: -8px; color:rgb(255,255,255,.7);">Download Path</h3>
+    <div class="text-box">
+      <input type="text" class="file-input" [(ngModel)]="downloadPath">
     </div>
 
     <mat-list>
       <div mat-subheader>File List</div>
-      <mat-list-item *ngFor="let file of files" (click)="fileDownload(file)">
+      <mat-list-item class="file-items" *ngFor="let file of files" (click)="fileDownload(file)">
         <mat-icon mat-list-icon>file_present</mat-icon>
         <div mat-line>{{file.name}}</div>
         <div mat-line> {{file.updated | date}} </div>

@@ -46,19 +46,17 @@ export class AppComponent implements OnInit {
   }
 
   onUploadFileSelected = (event: any) => {
-    const file:File = event.target.files[0];
-
-    if (file) {
-      this.fileName = file.name;
-      const formData = new FormData();
-      formData.append("thumbnail", file);
+    const element = event.currentTarget as HTMLInputElement;
+    let fileList: FileList | null = element.files;
+    if (fileList) {
+      this.fileName = fileList[0].name;
     }
   }
 
   fileUpload = (folder: HTMLInputElement) => {
     // TODO: You must use hard-coded file paths and file names as dynamic variables.
     let data = {
-      fileName: "소라카역관광.mp4",
+      fileName: "sample_jskang.mp4",
       uploadPath: this.uploadPath
     }
 
@@ -67,11 +65,6 @@ export class AppComponent implements OnInit {
       // Update file list if successful.
       this.onFileListRefresh();
     });
-  }
-
-  onDownloadPathSelected = (event: any) => {
-    // TODO: Let the user choose a path to download.
-    const file:File = event.target.files[0];
   }
 
   fileDownload = (folder: Section) => {

@@ -1,8 +1,17 @@
 .file-input {
-  display: none;
+  margin-top: 10px;
+  margin-bottom: 20px;
 }
 
 .file-upload {
   color: #fff;
   margin: 20px;
+}
+
+.file-items {
+  width: 300px;
+}
+
+.text-box {
+  margin-left: 20px;
 }
