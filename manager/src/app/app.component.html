@@ -24,8 +24,12 @@
       <mat-list-item class="file-items" *ngFor="let file of files" (click)="fileDownload(file)">
         <mat-icon mat-list-icon>file_present</mat-icon>
         <div mat-line>{{file.name}}</div>
-        <div mat-line> {{file.updated | date}} </div>
-        <div mat-line> {{file.damaged}} </div>
+        <div mat-line>
+          <span *ngIf="file.damaged == -1">smart-contract connect fail.</span>
+          <span *ngIf="file.damaged == 0">file normal.</span>
+          <span *ngIf="0 < file.damaged && file.damaged < 4">A few files damaged (recoverable)</span>
+          <span *ngIf="file.damaged > 3">Many files damaged (unrecoverable)</span>
+        </div>
       </mat-list-item>
       <mat-divider></mat-divider>
     </mat-list>

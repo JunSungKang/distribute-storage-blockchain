@@ -7,12 +7,15 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
+import { MatDialogModule } from '@angular/material/dialog';
 import { HttpClientModule } from '@angular/common/http';
-import {FormsModule} from "@angular/forms";
+import { FormsModule } from "@angular/forms";
+import { DialogComponent } from './component/dialog/dialog.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    DialogComponent
   ],
   imports: [
     BrowserModule,
@@ -20,6 +23,7 @@ import {FormsModule} from "@angular/forms";
     MatTabsModule,
     MatListModule,
     MatIconModule,
+    MatDialogModule,
     HttpClientModule,
     FormsModule
   ],
