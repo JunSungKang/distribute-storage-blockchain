@@ -63,7 +63,6 @@ public class UploadHandler extends HandlerUtils implements Handler {
         }
         String uploadPath = (String) data.get("uploadPath");
 
-        // TODO: 업로드 하기전에 통신 연결상태 확인 후, ReedSolomon 적용해야함
         // 파일 업로드
         String resultData = new Upload().excute(uploadPath, fileName);
         LOG.info("upload success.");
