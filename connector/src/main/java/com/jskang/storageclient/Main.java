@@ -16,15 +16,15 @@ public class Main {
     private static Logger LOG = LoggerFactory.getLogger(Main.class);
 
     public static void main(String[] args) throws IOException {
-        int port = 0;
+        int port = 8080;
         try {
-            Integer.valueOf(args[1]);
+            port = Integer.valueOf(args[0]);
         } catch (NumberFormatException e) {
-            port = 8080;
             LOG.warn("An incorrect value was entered. The port defaults to 8080.");
+            LOG.debug(e.getMessage());
         } catch (Exception e) {
-            port = 8080;
             LOG.warn("An error occurred while converting a number. The port defaults to 8080.");
+            LOG.debug(e.getMessage());
         }
 
         // TODO: 404 응답 처리 해야함
