@@ -39,6 +39,7 @@ public class Upload implements FileUpDown {
         }
 
         // 읽은 파일 byte로 변환
+        LOG.debug("Read file to byte.");
         int fileSize = (int) file.length();
         final int storedSize = fileSize + ReedSolomonCommon.BYTES_IN_INT;
         final int shardSize =
@@ -53,8 +54,10 @@ public class Upload implements FileUpDown {
         }
 
         // ReedSolomon Encoding 수행
+        LOG.debug("Real reed-solomon encoding.");
         reedSolomonCommon = new ReedSolomonEncoding(allBytes);
         try {
+            LOG.info("(" + filePath + ") ReedSolomon encoding end.");
             return reedSolomonCommon.execute(filePath);
         } catch (IOException e) {
             throw new IllegalStateException(e.getMessage());

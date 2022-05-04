@@ -33,6 +33,7 @@ public class ReedSolomonEncoding implements ReedSolomonCommon {
         final int shardSize = (storedSize + DATA_SHARDS - 1) / DATA_SHARDS;
         final int bufferSize = shardSize * DATA_SHARDS;
 
+        LOG.debug("Distribute file temp copy.");
         byte[] realFile = new byte[bufferSize];
         System.arraycopy(this.allBytes, 0, realFile, 0, this.allBytes.length);
 
@@ -47,11 +48,13 @@ public class ReedSolomonEncoding implements ReedSolomonCommon {
             System.arraycopy(realFile, i * shardSize, shards[i], 0, shardSize);
         }
 
+        LOG.debug("Distribute file parity create.");
         // Use Reed-Solomon to calculate the parity.
         ReedSolomon reedSolomon = ReedSolomon.create(DATA_SHARDS, PARITY_SHARDS);
         reedSolomon.encodeParity(shards, 0, shardSize);
 
         // Write out the resulting files.
+        LOG.debug("Distribute file write.");
         List<String> outputFiles = new ArrayList<>();
         for (int i = 0; i < TOTAL_SHARDS; i++) {
             File outputFile = new File(fileName + "." + i);
