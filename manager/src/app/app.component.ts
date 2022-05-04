@@ -29,7 +29,7 @@ export class AppComponent implements OnInit {
   files: any = [];
 
   onFileListRefresh = () => {
-    let fileList = this.http.get("http://127.0.0.1:20040/file/list");
+    let fileList = this.http.get("/file/list");
     fileList.subscribe((value: any) => {
       let header = value["header"];
       let body = value["body"];
@@ -75,7 +75,7 @@ export class AppComponent implements OnInit {
       uploadPath: this.uploadPath
     }
 
-    let response = this.http.post("http://127.0.0.1:8080/upload", JSON.stringify(data));
+    let response = this.http.post("/upload", JSON.stringify(data));
     response.subscribe(value => {
       // Update file list if successful.
       this.onFileListRefresh();
@@ -97,14 +97,14 @@ export class AppComponent implements OnInit {
       downloadPath: this.downloadPath
     }
 
-    let response = this.http.post("http://127.0.0.1:8080/download", JSON.stringify(data));
+    let response = this.http.post("/download", JSON.stringify(data));
     response.subscribe(value => {
       console.log(value);
     });
   }
 
   fileCheck = (fileName: string) => {
-    this.http.get("http://127.0.0.1:20040/file/damage-check?fileName=" + fileName)
+    this.http.get("/file/damage-check?fileName=" + fileName)
       .subscribe((value: any) => {
         let header = value["header"];
         let body = value["body"];
