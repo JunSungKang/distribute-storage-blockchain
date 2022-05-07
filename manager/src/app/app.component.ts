@@ -51,9 +51,6 @@ export class AppComponent implements OnInit {
   }
 
   fileUpload = (folder: HTMLInputElement) => {
-    // TODO: You must use hard-coded file paths and file names as dynamic variables.
-    let fileName = "";
-
     // 선택된 파일이 없거나 HTML DOM 구조에 손상이 있는 경우 (unll check)
     if (folder.files == null || folder.files.length < 1) {
       this.dialog.open(DialogComponent, {
@@ -69,7 +66,7 @@ export class AppComponent implements OnInit {
     formData.append("file", folder.files[0]);
 
     const upload$ = this.http.post("http://localhost:20040/file/upload?fileName=" +folder.files[0].name, formData);
-    upload$.subscribe();
+    upload$.subscribe(value => console.log(value));
   }
 
   fileDownload = (folder: Section) => {

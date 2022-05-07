@@ -1,17 +1,7 @@
-.file-input {
-  margin-top: 10px;
-  margin-bottom: 20px;
-}
-
-.file-upload {
-  color: #fff;
-  margin: 20px;
+mat-form-field, .file-select-btn, .file-upload-btn, .text-box {
+  margin: 10px;
 }
 
 .file-items {
   width: 300px;
-}
-
-.text-box {
-  margin-left: 20px;
 }

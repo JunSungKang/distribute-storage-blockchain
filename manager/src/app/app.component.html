@@ -1,10 +1,15 @@
 <mat-tab-group>
   <mat-tab label="File Upload">
-    <h3 style="padding:16px; margin-bottom: -8px; color:rgb(255,255,255,.7);">Upload File Select</h3>
     <div class="text-box">
-      <input type="file" class="file-input" (change)="onUploadFileSelected($event)" #fileUploadTag>
-      <br/>
-      <button (click)="fileUpload(fileUploadTag)"> File Upload Start! </button>
+      <input hidden type="file" class="file-input" (change)="onUploadFileSelected($event)" #fileInput>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Seleted File</mat-label>
+        <input matInput readonly value="{{fileName}}">
+      </mat-form-field>
+
+      <button mat-raised-button class="file-select-btn" (click)="fileInput.click()">File Select</button>
+      <button mat-raised-button color="primary" class="file-upload-btn" (click)="fileUpload(fileInput)">UPLOAD</button>
     </div>
   </mat-tab>
 
@@ -17,7 +22,8 @@
         <div mat-line>
           <span *ngIf="file.damaged == -1">smart-contract connect fail.</span>
           <span *ngIf="file.damaged == 0">file normal.</span>
-          <span *ngIf="0 < file.damaged && file.damaged < 4">A few files damaged (recoverable)</span>
+          <span
+            *ngIf="0 < file.damaged && file.damaged < 4">A few files damaged (recoverable)</span>
           <span *ngIf="file.damaged > 3">Many files damaged (unrecoverable)</span>
         </div>
       </mat-list-item>
