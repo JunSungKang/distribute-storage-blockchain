@@ -27,7 +27,7 @@ export class AppComponent implements OnInit {
   files: any = [];
 
   onFileListRefresh = () => {
-    let fileList = this.http.get("http://localhost:20040/file/list");
+    let fileList = this.http.get("http://175.115.231.124:20040/file/list");
     fileList.subscribe((value: any) => {
       let header = value["header"];
       let body = value["body"];
@@ -65,7 +65,7 @@ export class AppComponent implements OnInit {
     let formData: FormData = new FormData();
     formData.append("file", folder.files[0]);
 
-    const upload$ = this.http.post("http://localhost:20040/file/upload?fileName=" +folder.files[0].name, formData);
+    const upload$ = this.http.post("http://175.115.231.124:20040/file/upload?fileName=" +folder.files[0].name, formData);
     upload$.subscribe(value => console.log(value));
   }
 
@@ -80,14 +80,14 @@ export class AppComponent implements OnInit {
       return;
     }
 
-    let response = this.http.get("/file/download?fileName="+ folder.name, { responseType: "blob" });
+    let response = this.http.get("http://175.115.231.124:20040/file/download?fileName="+ folder.name, { responseType: "blob" });
     response.subscribe(blob => {
       saveAs(blob, folder.name);
     });
   }
 
   fileCheck = (fileName: string) => {
-    this.http.get("http://localhost:20040/file/damage-check?fileName=" + fileName)
+    this.http.get("http://175.115.231.124:20040/file/damage-check?fileName=" + fileName)
       .subscribe((value: any) => {
         let header = value["header"];
         let body = value["body"];
