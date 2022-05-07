@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import { saveAs } from 'file-saver';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogComponent } from "./component/dialog/dialog.component";
 import { MESSAGE } from "../assets/common.message";
@@ -22,14 +23,11 @@ export class AppComponent implements OnInit {
     // File list update.
     this.onFileListRefresh();
   }
-
-  downloadPath: string = "D:\\";
-  uploadPath: string = "D:\\";
   fileName: string = "";
   files: any = [];
 
   onFileListRefresh = () => {
-    let fileList = this.http.get("/file/list");
+    let fileList = this.http.get("http://localhost:20040/file/list");
     fileList.subscribe((value: any) => {
       let header = value["header"];
       let body = value["body"];
@@ -67,19 +65,11 @@ export class AppComponent implements OnInit {
       return;
     }
 
-    if (folder.files.length) {
-      fileName = folder.files[0].name;
-    }
-    let data = {
-      fileName: fileName,
-      uploadPath: this.uploadPath
-    }
+    let formData: FormData = new FormData();
+    formData.append("file", folder.files[0]);
 
-    let response = this.http.post("/upload", JSON.stringify(data));
-    response.subscribe(value => {
-      // Update file list if successful.
-      this.onFileListRefresh();
-    });
+    const upload$ = this.http.post("http://localhost:20040/file/upload?fileName=" +folder.files[0].name, formData);
+    upload$.subscribe();
   }
 
   fileDownload = (folder: Section) => {
@@ -92,19 +82,15 @@ export class AppComponent implements OnInit {
       });
       return;
     }
-    let data = {
-      fileName: folder.name,
-      downloadPath: this.downloadPath
-    }
 
-    let response = this.http.post("/download", JSON.stringify(data));
-    response.subscribe(value => {
-      console.log(value);
+    let response = this.http.get("/file/download?fileName="+ folder.name, { responseType: "blob" });
+    response.subscribe(blob => {
+      saveAs(blob, folder.name);
     });
   }
 
   fileCheck = (fileName: string) => {
-    this.http.get("/file/damage-check?fileName=" + fileName)
+    this.http.get("http://localhost:20040/file/damage-check?fileName=" + fileName)
       .subscribe((value: any) => {
         let header = value["header"];
         let body = value["body"];

@@ -1,10 +1,5 @@
 <mat-tab-group>
   <mat-tab label="File Upload">
-    <h3 style="padding:16px; margin-bottom: -8px; color:rgb(255,255,255,.7);">Upload File Path</h3>
-    <div class="text-box">
-      <input type="text" class="file-input" [(ngModel)]="uploadPath">
-    </div>
-
     <h3 style="padding:16px; margin-bottom: -8px; color:rgb(255,255,255,.7);">Upload File Select</h3>
     <div class="text-box">
       <input type="file" class="file-input" (change)="onUploadFileSelected($event)" #fileUploadTag>
@@ -14,11 +9,6 @@
   </mat-tab>
 
   <mat-tab label="File Download">
-    <h3 style="padding:16px; margin-bottom: -8px; color:rgb(255,255,255,.7);">Download Path</h3>
-    <div class="text-box">
-      <input type="text" class="file-input" [(ngModel)]="downloadPath">
-    </div>
-
     <mat-list>
       <div mat-subheader>File List</div>
       <mat-list-item class="file-items" *ngFor="let file of files" (click)="fileDownload(file)">
