@@ -62,7 +62,7 @@ export class AppComponent implements OnInit {
       return;
     }
 
-    if (folder.files[0].name.length > 32) {
+    if (folder.files[0].name.length > 29) {
       this.dialog.open(DialogComponent, {
         data: {
           title: MESSAGE.COMMON(MESSAGE.KO_KR, "ERROR_TITLE_01"),
@@ -97,7 +97,7 @@ export class AppComponent implements OnInit {
   }
 
   fileCheck = (fileName: string) => {
-    this.http.get(" file/damage-check?fileName=" + fileName)
+    this.http.get("http://175.115.231.124:20040/file/damage-check?fileName=" + fileName)
       .subscribe((value: any) => {
         let header = value["header"];
         let body = value["body"];
